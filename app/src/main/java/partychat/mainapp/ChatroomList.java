@@ -42,6 +42,8 @@ public class ChatroomList extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent myIntent = new Intent(this, SettingsPage.class);
+            startActivity(myIntent);
             return true;
         }
 
@@ -53,7 +55,15 @@ public class ChatroomList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ChatroomAdapter(i));
     }
+
     public void openCreateChatroom(View view){
         setupRecyclerView(ChatroomAdapter.count + 1);
     }
+
+    public void openChatroom(View view){
+        Intent intent = new Intent(this, ChatroomPage.class);
+        startActivity(intent);
+    }
+
+    //Opens the settings page
 }
