@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "151586703917",
+    "firebase_url": "https://partychat-85050.firebaseio.com",
+    "project_id": "partychat-85050",
+    "storage_bucket": "partychat-85050.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151586703917:android:2398e32cf1a8187a",
+        "android_client_info": {
+          "package_name": "partychat.mainapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "151586703917-0tamuki36rjdvs2r8qnk4iohoaj8dvor.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX2N6oz0b8cxzBPvrD0EiArp3CqdYMDsE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -11,10 +11,31 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.database.DatabaseReference;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ChatroomList extends AppCompatActivity {
+
+
+    ArrayList<String> listOfChatRooms = new ArrayList<String>();
+    ArrayAdapter arrayAdpt;
+
+    String UserName;
+
+    private DatabaseReference dbr = FirebaseDatabase.getInstance().getReference().getRoot();
+
+
     private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
