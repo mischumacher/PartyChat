@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ChatroomObject implements Serializable {
+    public static ArrayList<ChatroomObject> chatroomsList;
     private String owner;
     private String chatName;
     private ArrayList<String> messages;
@@ -14,6 +15,7 @@ public class ChatroomObject implements Serializable {
         this.chatName = chatName;
         messages = new ArrayList<String>();
         filepath = chatName + ".txt";
+        chatroomsList.add(this);
     }
 
     public String getOwner(){
@@ -22,6 +24,14 @@ public class ChatroomObject implements Serializable {
 
     public void setOwner(String owner){
         this.owner = owner;
+    }
+
+    public String getName(){
+        return chatName;
+    }
+
+    public void setName(String chatName){
+        this.chatName = chatName;
     }
 
     public void appendMessage(String owner, String message){
@@ -34,6 +44,13 @@ public class ChatroomObject implements Serializable {
 
     public String getFilepath(){
         return filepath;
+    }
+
+
+    public static ArrayList<ChatroomObject> getChatrooms(){
+        if(chatroomsList == null)
+            chatroomsList = new ArrayList<ChatroomObject>();
+        return chatroomsList;
     }
 
 
