@@ -34,7 +34,6 @@ public class ChatroomList extends AppCompatActivity {
 
         setupRecyclerView(ChatroomAdapter.count);
 
-        Spinner spinner = (Spinner) findViewById(R.id.menu_spinner1);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.menu_spinner_array, android.R.layout.simple_spinner_item);
