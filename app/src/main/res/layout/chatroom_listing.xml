@@ -14,5 +14,13 @@
         android:layout_height="70dp"
         android:onClick="openChatroom"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ChatroomName"
+            android:layout_width="140dp"
+            android:layout_height="36dp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

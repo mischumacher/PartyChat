@@ -27,4 +27,9 @@
         android:orderInCategory="100"
         android:title="Friends"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/bluetooth_chat_start"
+        android:orderInCategory="100"
+        android:title="Bluetooth Chat"
+        app:showAsAction="never"/>
 </menu>

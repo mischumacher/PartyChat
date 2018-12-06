@@ -52,7 +52,7 @@ public class ChatroomPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.chatroom_listing);
+        setContentView(R.layout.chatroom_page);
         findViewsByIds();
 
         //check device support bluetooth or not
