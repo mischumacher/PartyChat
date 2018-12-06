@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ChatroomList extends AppCompatActivity {
@@ -19,11 +20,17 @@ public class ChatroomList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        File directory = getApplicationContext().getFilesDir();
+        File file = new File(directory, "UserSettings.txt");
         setContentView(R.layout.activity_chatroom_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         setupRecyclerView(ChatroomAdapter.count);
+        if(!file.exists()) {
+            Intent intent = new Intent(this, FirstTimeSettings.class);
+            startActivity(intent);
+        }
     }
 
     @Override

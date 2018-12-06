@@ -3,6 +3,7 @@ package partychat.mainapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 
 public class SettingsPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
@@ -10,5 +11,7 @@ public class SettingsPage extends AppCompatActivity {
         setContentView(R.layout.settings_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Window w = getWindow();
+        w.setTitle("Settings");
     }
 }

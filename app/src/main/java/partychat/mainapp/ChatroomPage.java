@@ -3,6 +3,7 @@ package partychat.mainapp;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 
 public class ChatroomPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
@@ -10,5 +11,7 @@ public class ChatroomPage extends AppCompatActivity {
         setContentView(R.layout.chatroom_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Window w = getWindow();
+        w.setTitle("Chatroom Name"); //TODO set proper chatroom name
     }
 }
