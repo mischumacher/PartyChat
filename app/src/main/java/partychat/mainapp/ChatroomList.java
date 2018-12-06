@@ -37,7 +37,7 @@ public class ChatroomList extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setupRecyclerView(ChatroomAdapter.count, null);
+        setupRecyclerView();
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -89,12 +89,12 @@ public class ChatroomList extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    private void setupRecyclerView(int i, String name) {
+    private void setupRecyclerView() {
 
         recyclerView  = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if(!(name == null))
-            recyclerView.setAdapter(new ChatroomAdapter(i, name));
+            recyclerView.setAdapter(new ChatroomAdapter(ChatroomObject.getChatrooms()));
     }
 
     public void openCreateChatroom(View view){
@@ -112,7 +112,8 @@ public class ChatroomList extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 name = input.getText().toString();
-                setupRecyclerView(ChatroomAdapter.count + 1, name);
+                ChatroomObject chatroom = new ChatroomObject("ME", name);//TODO replace me with chatroom owner
+                setupRecyclerView();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

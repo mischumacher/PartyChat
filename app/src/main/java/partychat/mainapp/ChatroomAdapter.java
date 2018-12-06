@@ -8,12 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class ChatroomAdapter extends RecyclerView.Adapter<ChatroomAdapter.ChatroomViewHolder> {
     public static int count;
     public String chatName;
-    public ChatroomAdapter(int i, String name) {
-        count = i;
-        chatName = name;
+    public ArrayList<ChatroomObject> chatroomsList;
+    public ChatroomAdapter(ArrayList<ChatroomObject> chatrooms) {
+        chatroomsList = chatrooms;
     }
 
     @NonNull
@@ -26,13 +28,13 @@ public class ChatroomAdapter extends RecyclerView.Adapter<ChatroomAdapter.Chatro
     @Override
     public void onBindViewHolder(@NonNull ChatroomViewHolder chatroomViewHolder, int i) {
         //TODO change and set content on the listing
-        chatroomViewHolder.chatName.setText(chatName);
+        chatroomViewHolder.chatName.setText(chatroomsList.get(i).getName());
         int implement = 0;
     }
 
     @Override
     public int getItemCount() {
-        return count;//TODO return proper count
+        return chatroomsList.size();//TODO return proper count
     }
 
     protected static class ChatroomViewHolder extends RecyclerView.ViewHolder {
