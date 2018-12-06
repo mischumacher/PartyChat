@@ -1,16 +1,20 @@
 package partychat.mainapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -20,6 +24,7 @@ import java.io.IOException;
 
 public class ChatroomList extends AppCompatActivity {
     private RecyclerView recyclerView;
+    String name = "";
 
 
 
@@ -32,7 +37,7 @@ public class ChatroomList extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setupRecyclerView(ChatroomAdapter.count);
+        setupRecyclerView(ChatroomAdapter.count, null);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -62,23 +67,62 @@ public class ChatroomList extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent myIntent = new Intent(this, SettingsPage.class);
-            startActivity(myIntent);
-            return true;
-        }
+        switch (item.getItemId())
+        {
+            case R.id.action_settings:
+            {
+                // Here you can set your intent and start the activity
+                Intent myIntent = new Intent(this, SettingsPage.class);
+                startActivity(myIntent);
+                return true;
+            }
 
-        return super.onOptionsItemSelected(item);
+            case R.id.bluetooth_chat_start:
+            {
+
+                Intent intent = new Intent(this, ChatroomPage.class);
+                startActivity(intent);
+                return true;
+            }
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
-    private void setupRecyclerView(int i) {
+    private void setupRecyclerView(int i, String name) {
 
         recyclerView  = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ChatroomAdapter(i));
+        if(!(name == null))
+            recyclerView.setAdapter(new ChatroomAdapter(i, name));
     }
 
     public void openCreateChatroom(View view){
-        setupRecyclerView(ChatroomAdapter.count + 1);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
+
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                name = input.getText().toString();
+                setupRecyclerView(ChatroomAdapter.count + 1, name);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     public void openChatroom(View view){

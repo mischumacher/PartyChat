@@ -6,11 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class ChatroomAdapter extends RecyclerView.Adapter<ChatroomAdapter.ChatroomViewHolder> {
     public static int count;
-    public ChatroomAdapter(int i) {
+    public String chatName;
+    public ChatroomAdapter(int i, String name) {
         count = i;
+        chatName = name;
     }
 
     @NonNull
@@ -21,8 +24,9 @@ public class ChatroomAdapter extends RecyclerView.Adapter<ChatroomAdapter.Chatro
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ChatroomViewHolder chatroomiewHolder, int i) {
+    public void onBindViewHolder(@NonNull ChatroomViewHolder chatroomViewHolder, int i) {
         //TODO change and set content on the listing
+        chatroomViewHolder.chatName.setText(chatName);
         int implement = 0;
     }
 
@@ -33,9 +37,11 @@ public class ChatroomAdapter extends RecyclerView.Adapter<ChatroomAdapter.Chatro
 
     protected static class ChatroomViewHolder extends RecyclerView.ViewHolder {
         //TODO declare variables for content
+        TextView chatName;
 
         public ChatroomViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.chatName = itemView.findViewById(R.id.ChatroomName);
             //TODO link variables to proper item
         }
     }
