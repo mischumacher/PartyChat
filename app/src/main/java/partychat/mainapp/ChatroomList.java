@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ChatroomList extends AppCompatActivity {
@@ -25,12 +26,13 @@ public class ChatroomList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        File directory = getApplicationContext().getFilesDir();
+        File file = new File(directory, "UserSettings.txt");
         setContentView(R.layout.activity_chatroom_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         setupRecyclerView(ChatroomAdapter.count);
-
 
         Spinner spinner = (Spinner) findViewById(R.id.menu_spinner1);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -40,8 +42,10 @@ public class ChatroomList extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
 
-
-
+        if(!file.exists()) {
+            Intent intent = new Intent(this, FirstTimeSettings.class);
+            startActivity(intent);
+        }
     }
 
     @Override
