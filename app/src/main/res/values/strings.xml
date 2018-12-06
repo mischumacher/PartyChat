@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Party Chat</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="menu_spinner_array">
+        <item>Home</item>
+        <item>Chatrooms</item>
+        <item>Friends</item>
+        <item>Profile</item>
+        <item>Settings</item>
+
+    </string-array>
 </resources>
