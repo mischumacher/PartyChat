@@ -11,12 +11,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.io.File;
 import java.io.IOException;
 
 public class ChatroomList extends AppCompatActivity {
     private RecyclerView recyclerView;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +33,15 @@ public class ChatroomList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setupRecyclerView(ChatroomAdapter.count);
+
+        Spinner spinner = (Spinner) findViewById(R.id.menu_spinner1);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.menu_spinner_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+
         if(!file.exists()) {
             Intent intent = new Intent(this, FirstTimeSettings.class);
             startActivity(intent);
