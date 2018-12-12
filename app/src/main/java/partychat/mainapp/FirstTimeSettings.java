@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,9 +36,9 @@ public class FirstTimeSettings extends AppCompatActivity {
 
         TextInputEditText userNameField = findViewById(R.id.UsernameText);
         String username = userNameField.getText().toString();
-        //TODO check for safe input
+        ChatroomList.owner = username;
         String userID = Long.toString(System.currentTimeMillis()) + username;
-        //TODO store theme selection
+        ChatroomList.ID = userID;
 
         File directory = getApplicationContext().getFilesDir();
         File file = new File(directory, "UserSettings.txt");

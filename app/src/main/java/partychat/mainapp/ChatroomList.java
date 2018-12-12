@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.wifi.WpsInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -15,11 +16,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.EOFException;
@@ -28,8 +32,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +44,8 @@ public class ChatroomList extends AppCompatActivity {
     private RecyclerView recyclerView;
     private boolean isWifiP2pEnabled = false;
     String name = "";
+    public static String owner = null;
+    public static String ID = null;
 
     //WIFI stuff
     final IntentFilter intentFilter = new IntentFilter();
@@ -49,6 +58,8 @@ public class ChatroomList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         File directory = getApplicationContext().getFilesDir();
         File file = new File(directory, "UserSettings.txt");
+
+
         File file2 = new File(directory, "Chatrooms.txt");
         try {
             file2.createNewFile();
@@ -97,6 +108,30 @@ public class ChatroomList extends AppCompatActivity {
             Intent intent = new Intent(this, FirstTimeSettings.class);
             startActivity(intent);
         }
+        else{
+            InputStream fis = null;
+            String temp = null;
+            try {
+                // below true flag tells OutputStream to append
+                fis = new FileInputStream(file);
+                int content;
+                while ((content = fis.read()) != -1) {
+                    // convert to char and display it
+                    temp += (char) content;
+                }
+                int colonIndex = temp.indexOf(":");
+                owner = temp.substring(0, colonIndex);
+                ID = temp.substring(colonIndex + 1, temp.length() - 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     @Override
@@ -108,9 +143,6 @@ public class ChatroomList extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -151,7 +183,7 @@ public class ChatroomList extends AppCompatActivity {
 // Set up the input
         final EditText input = new EditText(this);
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
 // Set up the buttons
@@ -176,6 +208,8 @@ public class ChatroomList extends AppCompatActivity {
 
     public void openWifiChatroom(View view){
         Intent intent = new Intent(this, WifiChatroomPage.class);
+        String name = ((TextView)view.findViewById(R.id.ChatroomName)).getText().toString();
+        intent.putExtra("chatName", name);
         startActivity(intent);
     }
 
@@ -234,7 +268,7 @@ public class ChatroomList extends AppCompatActivity {
     }
 
     public static ArrayList<ChatroomObject> getSavedChatrooms(Context context) throws IOException, ClassNotFoundException {
-        ArrayList<ChatroomObject> tempAlarms = new ArrayList<ChatroomObject>();
+        ArrayList<ChatroomObject> tempRooms = new ArrayList<ChatroomObject>();
         File directory = context.getFilesDir();
         File file = new File(directory, "Chatrooms.txt");
         Boolean keepGoing = true;
@@ -244,7 +278,7 @@ public class ChatroomList extends AppCompatActivity {
             fi = new FileInputStream(file);
             oi = new ObjectInputStream(fi);
             while (keepGoing) {
-                tempAlarms.add((ChatroomObject) oi.readObject());
+                tempRooms.add((ChatroomObject) oi.readObject());
             }
         } catch (EOFException e) {
             keepGoing = false;
@@ -255,7 +289,19 @@ public class ChatroomList extends AppCompatActivity {
             oi.close();
 
 
-        return tempAlarms;
+        return tempRooms;
+    }
+
+    public void onDelete(View view){
+        String name = ((TextView)((LinearLayout)view.getParent()).findViewById(R.id.ChatroomName)).getText().toString();
+        for(int i = 0; i < ChatroomObject.chatroomsList.size(); i++){
+            if(ChatroomObject.chatroomsList.get(i).getName().equals(name)){
+                ChatroomObject.chatroomsList.remove(i);
+                break;
+            }
+        }
+        saveFile(getApplicationContext());
+        setupRecyclerView();
     }
 
 }
