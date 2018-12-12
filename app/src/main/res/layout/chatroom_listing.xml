@@ -22,5 +22,15 @@
             android:text="TextView"
             android:textColor="@color/white"
             android:textSize="24sp" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:layout_gravity="top|right"
+            android:alpha="0.5"
+            android:background="@android:color/black"
+            android:onClick="onDelete"
+            app:srcCompat="@android:drawable/ic_delete" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

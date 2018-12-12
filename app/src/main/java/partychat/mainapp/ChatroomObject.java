@@ -35,7 +35,7 @@ public class ChatroomObject implements Serializable {
     }
 
     public void appendMessage(String owner, String message){
-        messages.add(owner + "," + message);
+        messages.add(owner + ": " + message);
     }
 
     public ArrayList<String> getMessages(){

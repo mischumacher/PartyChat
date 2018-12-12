@@ -1,5 +1,6 @@
 package partychat.mainapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,15 +18,27 @@ public class WifiChatroomPage extends AppCompatActivity {
     private TextInputLayout inputLayout;
     private ArrayAdapter<String> chatAdapter;
     private ArrayList<String> chatMessages;
+    private ChatroomObject currentChatroom = null;
+    private Integer currentChatroomIndex = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.wifi_chatroom_page);
+        Intent intent = getIntent();
+        if (intent.hasExtra("chatName")) {
+            String name = intent.getStringExtra("chatName");
+            //finding the alarm being edited
+            for (int i = 0; i < ChatroomObject.getChatrooms().size(); i++) {
+                if (ChatroomObject.getChatrooms().get(i).getName().equals(name)) {
+                    currentChatroom = ChatroomObject.getChatrooms().get(i);
+                    currentChatroomIndex = i;
+                }
+            }
+        }
         findViewsByIds();
 
         //set chat adapter
-        chatMessages = new ArrayList<>();
+        chatMessages = currentChatroom.getMessages();
         chatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, chatMessages);
         listView.setAdapter(chatAdapter);
     }
@@ -50,7 +63,8 @@ public class WifiChatroomPage extends AppCompatActivity {
     }
 
     private void sendMessage(String message) {
-        //TODO
-
+        currentChatroom.appendMessage(ChatroomList.owner, message);
+        ChatroomList.saveFile(getApplicationContext());
+        chatAdapter.notifyDataSetChanged();
     }
 }
